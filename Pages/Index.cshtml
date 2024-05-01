@@ -1,0 +1,59 @@
+﻿@page
+@model FizzBuzzAPP.Models.FizzBuzzModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<style>
+    .fizz {
+        color: blue;
+    }
+
+    .buzz {
+        color: green;
+    }
+</style>
+
+<h1>FizzBuzz</h1>
+
+<form method="post">
+    <input type="hidden" name="StartIndex" value="@Model.StartIndex" />
+    <input type="hidden" name="EndIndex" value="@Model.EndIndex" />
+    <label for="inputValue">Enter a positive integer:</label>
+    <input type="number" id="inputValue" name="InputValue" min="1" max="1000" required />
+    <button type="submit">Generate FizzBuzz</button>
+
+
+@if (Model.FizzBuzzResults != null)
+{
+    <h2>Your Input: @Model.InputValue</h2>
+    <h2>Results:</h2>
+    <ul>
+        @for (int i = Model.StartIndex; i < Model.EndIndex && i < Model.FizzBuzzResults.Count; i++)
+        {
+            var result = Model.FizzBuzzResults[i];
+            <li>
+                @if (result == "Fizz")
+                {
+                    <span class="fizz">@result</span>
+                }
+                else if (result == "Buzz")
+                {
+                    <span class="buzz">@result</span>
+                }
+                else
+                {
+                    @result
+                }
+            </li>
+        }
+    </ul>
+    @if (Model.StartIndex > 0)
+    {
+            <a asp-page-handler="Previous">Previous</a>
+    }
+
+    @if (Model.EndIndex < Model.FizzBuzzResults.Count)
+    {
+            <a asp-page-handler="Next">Next</a>
+    }
+}
+</form>
